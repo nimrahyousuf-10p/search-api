@@ -8,19 +8,42 @@ const app = express();
 
 app.use(express.json());
 
-app.use("/", (req, res) => {
+app.use("/search", (req, res) => {
+  console.log();
+  const query = req.query.q || "";
   // const params = {
-  //   engine: "google",
   //   q: "Coffee",
   // };
   const params = {
-    q: "pakistan",
+    engine: "google",
+    q: query,
+    // tbm: "nws",
+    //   location: "Dallas",
+  };
+
+  const callback = function (data) {
+    console.log(data["organic_results"]);
+    res.send(data["organic_results"]);
+  };
+
+  // Show result as JSON
+  search.json(params, callback);
+});
+app.use("/news", (req, res) => {
+  console.log();
+  const query = req.query.q || "";
+  // const params = {
+  //   q: "Coffee",
+  // };
+  const params = {
+    q: query,
     tbm: "nws",
     //   location: "Dallas",
   };
 
   const callback = function (data) {
     console.log(data["news_results"]);
+    res.send(data["news_results"]);
   };
 
   // Show result as JSON
